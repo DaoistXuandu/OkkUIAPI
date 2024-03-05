@@ -37,10 +37,10 @@ app.use("/group", groupRoutes)
 app.use("/sponsor", sponsorRoutes)
 app.use("/event", eventRoutes)
 
-mongoose.connect("mongodb+srv://raihan:raihan@cluster0.dn6spax.mongodb.net/?retryWrites=true&w=majority&ssl=true&appName=Cluster0")
+mongoose.connect(process.env.DB_URI)
     .then(() => {
         console.log("Connected to Mongo")
-        app.listen(4000, () => {
+        app.listen(process.env.PORT, () => {
             console.log("Listening on Port", process.env.PORT)
         })
     })
