@@ -84,7 +84,6 @@ const createASchedule = async (req, res) => {
         // check if attendance is valid
         if (attendance != undefined) {
             for (index in attendance) {
-                console.log(attendance[index])
                 if (!mongoose.isValidObjectId(attendance[index]))
                     throw "Invalid Mongo Id"
 
@@ -135,7 +134,6 @@ const updateASchedule = async (req, res) => {
 
         if (attendance != undefined) {
             for (index in attendance) {
-                console.log(attendance[index])
                 if (!mongoose.isValidObjectId(attendance[index]))
                     throw "Invalid Mongo Id"
 

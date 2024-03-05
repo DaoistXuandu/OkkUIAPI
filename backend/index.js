@@ -22,11 +22,8 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Headers", "*");
 
     next();
-    console.log(res);
 })
 
-
-// app.set('etag', false); // turn off
 
 //middleware
 app.use(express.json())
