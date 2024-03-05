@@ -15,6 +15,16 @@ const eventRoutes = require('./routes/event')
 const app = express()
 
 
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", true);
+    res.header("Access-Control-Allow-Credentials", true);
+    // res.set({
+    //     "Content-Type": "application/json",
+    //     "Access-Control-Allow-Origin": "*",
+    // });
+    next();
+})
+
 //middleware
 app.use(express.json())
 
@@ -27,10 +37,10 @@ app.use("/group", groupRoutes)
 app.use("/sponsor", sponsorRoutes)
 app.use("/event", eventRoutes)
 
-mongoose.connect(process.env.DB_URI)
+mongoose.connect("mongodb+srv://raihan:raihan@cluster0.dn6spax.mongodb.net/?retryWrites=true&w=majority&ssl=true&appName=Cluster0")
     .then(() => {
         console.log("Connected to Mongo")
-        app.listen(process.env.PORT, () => {
+        app.listen(4000, () => {
             console.log("Listening on Port", process.env.PORT)
         })
     })
