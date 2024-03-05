@@ -327,7 +327,6 @@ const updatePerson = async (req, res) => {
 
 const getValidEntryProcess = (req, res) => {
     try {
-        // console.log(req)
         let response = {
             message: "Succesfully getting valid entry",
             status: "SUCCES",

@@ -1,0 +1,102 @@
+'use client'
+
+import axios, { formToJSON } from "axios";
+
+export default function Person() {
+    function handleEdit(data: any) {
+        const element = data.parentElement.parentElement.parentElement.nextSibling;
+        if (element) {
+            element.readOnly = false;
+            element.style.backgroundColor = "#e2e8f0";
+        }
+    }
+
+    function handleCopy(data: any) {
+        const element = data.parentElement.parentElement.parentElement.nextSibling;
+        if (element) {
+            navigator.clipboard.writeText(element.value)
+            alert("Succes copy JSON data!")
+        }
+    }
+
+    async function handleRun(data: any) {
+        try {
+            const element = data.parentElement.parentElement.parentElement.parentElement.nextSibling.firstChild.nextSibling;
+            axios.get('http://localhost:4000/person/entryValidity')
+                .then(response => {
+                    // Handle successful response
+                    const prettyRespone = JSON.stringify(response.data.document, undefined, 4);
+                    element.value = prettyRespone;
+                })
+                .catch(error => {
+                    // Handle error
+                    alert("Bad Request there is error")
+                    console.log(error)
+                });
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
+
+    return (
+        <main className="pr-10 pl-10 h-fit w-full bg-slate-100 font-sans text-black">
+            <div className="flex flex-col justify-center h-48">
+                <div className="text-5xl font-bold">Person Table</div>
+                <div className="text-md mt-1 font-light">API Testing: <a className="underline underline-offset-2" href="https://docs.google.com/document/d/19pwUABnu7YZ4xi7W1h3JHA7uNXLez_bI_88dcz8cRWo/edit?usp=sharing">Documentation</a></div>
+            </div>
+            <div className="border-2 shadow-lg pl-4 pr-4 pb-4 rounded-md bg-white flex lg:flex-row sm:flex-col">
+                <div className="lg:w-1/2 m-2">
+                    <div className="flex flex-row w-full h-24">
+                        <div className="w-1/2 flex items-center text-3xl font-bold">
+                            GET Valid Entrance
+                        </div>
+                        <div className="w-1/2 flex flex-row justify-end items-center">
+                            <div className="relative h-12 aspect-square rounded-full bg-slate-200 flex items-center justify-center mr-2 hover:bg-slate-300 hover:scale-105">
+                                <div className="absolute h-full w-full bg-none rounded-full" onClick={(e) => handleEdit(e.target)}></div>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                </svg>
+                            </div>
+                            <div className="relative h-12 aspect-square rounded-full bg-slate-200 flex items-center justify-center mr-2 hover:bg-slate-300 hover:scale-105">
+                                <div className="absolute h-full w-full bg-none rounded-full" onClick={(e) => handleCopy(e.target)}></div>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75" />
+                                </svg>
+                            </div>
+                            <div className="relative h-12 aspect-square rounded-full bg-slate-200 flex items-center justify-center mr-2 hover:bg-slate-300 hover:scale-105">
+                                <div className="absolute h-full w-full bg-none rounded-full " onClick={(e) => handleRun(e.target)}></div>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                </svg>
+                            </div>
+                            <div className="relative h-12 aspect-square rounded-full bg-slate-200 flex items-center justify-center mr-2 hover:bg-slate-300 hover:scale-105">
+                                <div className="absolute h-full w-full bg-none rounded-full " onClick={(e) => handleRun(e.target)}></div>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <textarea className="h-80 w-full resize-none bg-slate-300 outline-none p-3 font-mono text-sm" readOnly></textarea>
+                </div>
+                <div className="lg:w-1/2 m-2">
+                    <div className="flex flex-row w-full h-24 items-center">
+                        <div className="w-1/2 flex items-center text-3xl font-bold">
+                            Response
+                        </div>
+                        <div className="w-1/2 flex justify-end">
+                            <div className="h-12 aspect-square rounded-full bg-slate-200 flex items-center justify-center mr-2 hover:bg-slate-300 hover:scale-105">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <textarea className="h-80 w-full resize-none bg-slate-300 outline-none p-3 font-mono text-sm" readOnly></textarea>
+                </div>
+            </div>
+        </main >
+    )
+}
