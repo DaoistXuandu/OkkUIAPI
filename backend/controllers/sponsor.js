@@ -7,6 +7,8 @@ const listOfSponsor = new Set([
     "Silver"
 ])
 
+//
+//
 const createNewSponsor = async (req, res) => {
     try {
         const { title, price, benefit } = req.body
@@ -51,6 +53,7 @@ const createNewSponsor = async (req, res) => {
     }
 }
 
+//
 // GET All sponsor
 const getAllSponsor = async (req, res) => {
     try {

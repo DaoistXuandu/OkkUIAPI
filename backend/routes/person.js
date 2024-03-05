@@ -14,7 +14,7 @@ route.get('/getUIStudents', getUIStudents)
 route.get('/getNonUIStudents', getNonUIStudents)
 
 // get valid entrance process
-route.get('/entry-validity', getValidEntryProcess)
+route.get('/entryValidity', getValidEntryProcess)
 
 // get a single person
 route.get('/:id', getPerson)
