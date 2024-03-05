@@ -15,15 +15,18 @@ const eventRoutes = require('./routes/event')
 const app = express()
 
 
-// app.use((req, res, next) => {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Credentials", true);
-//     // res.set({
-//     //     "Content-Type": "application/json",
-//     //     "Access-Control-Allow-Origin": "*",
-//     // });
-//     next();
-// })
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Methods", "*");
+    res.header("Access-Control-Allow-Headers", "*");
+
+    next();
+    console.log(res);
+})
+
+
+// app.set('etag', false); // turn off
 
 //middleware
 app.use(express.json())

@@ -298,7 +298,7 @@ const changeMentor = async (req, res) => {
             status: "SUCCESS",
             statusCode: 200,
             document: changeMentor,
-            person: listOfChange
+            people: listOfChange
         }
         res.status(200).json(response)
     } catch (err) {
@@ -307,7 +307,7 @@ const changeMentor = async (req, res) => {
             status: "FAILED",
             statusCode: 400,
             document: null,
-            person: null
+            people: null
         }
         res.status(200).json(response)
     }

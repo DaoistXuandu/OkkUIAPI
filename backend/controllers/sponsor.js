@@ -7,7 +7,7 @@ const listOfSponsor = new Set([
     "Silver"
 ])
 
-//
+
 //
 const createNewSponsor = async (req, res) => {
     try {
@@ -62,7 +62,7 @@ const getAllSponsor = async (req, res) => {
             message: "Succesfully get all sponsor",
             status: "SUCCESS",
             statusCode: 200,
-            document: sponsor,
+            documents: sponsor,
             numberOfDocuments: await Sponsor.countDocuments()
         }
         res.status(200).json(response)
@@ -71,7 +71,7 @@ const getAllSponsor = async (req, res) => {
             message: err.message || err,
             status: "FAILED",
             statusCode: 400,
-            document: null,
+            documents: null,
             numberOfDocuments: null
         }
         res.status(400).json(response)
@@ -282,6 +282,7 @@ const deleteSponsor = async (req, res) => {
     }
 }
 
+//
 const getListOfSponsor = async (req, res) => {
     try {
         let response = {
