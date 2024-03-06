@@ -125,6 +125,7 @@ const updateASchedule = async (req, res) => {
 
         startDate = startDate || schedule.startDate
         endDate = endDate || schedule.endDate
+        notulen = notulen || schedule.notulen
 
         const currentStartDate = new Date(startDate)
         const currentEndDate = new Date(endDate)

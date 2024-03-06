@@ -153,13 +153,16 @@ const createPerson = async (req, res) => {
             occupation = false
 
         let person = null
-        if (status) {
+        if (status == true) {
             let currentDate = new Date
 
-            if (!faculty || !major || !batch || !entryProcess) {
+            if (!name || !faculty || !major || !batch || !entryProcess) {
                 let response = "Person validation failed:"
                 if (!faculty)
                     response += " Path 'faculty' required."
+                if (!name)
+                    response += " Path 'name' required."
+
                 if (!major)
                     response += " Path 'major' required."
                 if (!batch)
@@ -195,6 +198,7 @@ const createPerson = async (req, res) => {
 
         }
         else {
+            console.log(1)
             person = await Person.create({
                 name,
                 status,
