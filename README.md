@@ -1,4 +1,4 @@
-**OPREC RISTEK UI 2024**
+#OPREC RISTEK UI 2024
 
 Annonate hal - hal seru dan ter**** yang saya temukan sepanjang proses _developing_ API Ristek 2024, dimana merupakan projeck API dan juga NoSQL pertama yang pernah saya buat. 
 
@@ -30,7 +30,7 @@ Dikarenakan sering bermain dengan database saya pun mulai memahami seberapa pent
 >
 Saya baru tahu bahwa sebenarnya dalam method sendiri ada beberapa yang bisa disebut kapabel dan bagus namun ada juga yang mmebuat kehidupan kita menjadi 100% lebih susah. seperti dalam tahap awal pengembangan saya menggunakan methode fecth yang nana sejauh saya cari termasuk dalam methode yang sangat tua dan banyak masalah. Dimana saya setidaknya menghabiskan satu malam untuk paham sebenarnya apa yang salah.
 
-> PORT dan aristektur interkasi dalam komputer
+> PORT dan aristektur interakasi dalam komputer
 >
 Setelah berkali - kalai error karena lupa menaruh "use client" atau secra ***** menggunkana "use-client" dan pusing seharian mempertanyakan hal apa  yang bisa bikikn salah. saya pun mulai memahami tentang _nature_ dari berbagai pentuk protokeler yang berbeda - beda. Setidaknya saya mengeri mengapa menggunakan https terkdaang hal yang buruk
 
@@ -43,6 +43,7 @@ Benda aneh yang sangat random, sepengetahuan saya hal ini hanyalah suatu bentuk 
 Karena pusing kenak coors entah dimana padahal headernya udah di config macem macem saya pun tergerak untuk mendeploy backend saya agar datanya bisa saya ambil online. Tapi sebagai mahasiswa tentu cari yang gratisan kan, dan karena _confidence_ pernah _deploy_ ditempat yang sama jadinya ngeremehin. Tapi ternyata hampir impossible. Tolong siapapun ajarkan tutorial mendeploy express di vercell. Bayangin examples yang dikasih dari vercell aja ngga bsia jalan, ini itu maksdunya mau gimana coba?
 
 Mungkin itu notulensi beberapa minggu (baca: hari) ini  
+
 
 
 
