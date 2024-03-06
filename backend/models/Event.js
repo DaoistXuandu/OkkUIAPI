@@ -14,12 +14,10 @@ const EventSchema = new Schema({
         name: String,
         package: String
     }],
-    eventSpeaker: [{
-        type: Schema.ObjectId
-    }]
+    eventSpeaker: { type: Schema.ObjectId }
 
 }, { timestamps: false, versionKey: false })
 
-EventSchema.index({ eventSpeaker: 1, eventSponsor: 1 })
+EventSchema.index({ eventSponsor: 1 })
 
 module.exports = mongoose.model("Event", EventSchema)

@@ -18,7 +18,7 @@ route.patch('/updateSchedule/:id', updateSchedule)
 route.patch('/addDeleteSponsor/:id', addDeleteSponsor)
 
 // DELETE and ADD speaker
-route.patch('/addDeleteSpeaker/:id', addDeleteSpeaker)
+route.patch('/updateGroupSpeaker', addDeleteSpeaker)
 
 // DELETE event
 route.delete('/:id', deleteAnEvent)

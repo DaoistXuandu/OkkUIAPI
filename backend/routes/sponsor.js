@@ -16,7 +16,7 @@ route.get('/getListSponsor', getListOfSponsor)
 
 //
 // GET Sponsor based of its name
-route.get('/searchName', getSponsorByName)
+route.patch('/searchName', getSponsorByName)
 
 //
 // UPDATE harga

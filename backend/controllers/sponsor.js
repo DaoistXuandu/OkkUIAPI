@@ -82,7 +82,6 @@ const getAllSponsor = async (req, res) => {
 const getSponsorByName = async (req, res) => {
     try {
         const { title } = req.body
-
         if (!listOfSponsor.has(title))
             throw "Invalid Sponsor name. Must be either 'Platinum'. 'Gold'. 'Silver'."
 
@@ -95,7 +94,7 @@ const getSponsorByName = async (req, res) => {
             statusCode: 200,
             document: sponsor
         }
-        res.status(400).json(response)
+        res.status(200).json(response)
     } catch (err) {
         let response = {
             message: err.message || err,
@@ -265,7 +264,7 @@ const deleteSponsor = async (req, res) => {
             throw `There is no exist sponsor with name ${title} on 'SPONSOR'`
 
         let response = {
-            message: "Succesfully get all sponsor",
+            message: "Succesfully delete a Sponsor",
             status: "SUCCESS",
             statusCode: 200,
             document: sponsor
@@ -295,7 +294,7 @@ const getListOfSponsor = async (req, res) => {
                 "Silver"
             ],
         }
-        res.status(400).json(response)
+        res.status(200).json(response)
     } catch (err) {
         let response = {
             message: err.message || err,

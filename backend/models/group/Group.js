@@ -10,10 +10,10 @@ const GroupSchema = new Schema({
         type: Schema.ObjectId,
         required: true
     },
-    mentees: [{
+    mentees: {
         type: Schema.ObjectId,
         required: true
-    }],
+    },
     schedules: [{
         type: Schema.ObjectId
     }]

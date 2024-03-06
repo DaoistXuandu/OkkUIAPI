@@ -5,30 +5,33 @@ import axios, { formToJSON } from "axios";
 
 export default function Person() {
     const endRoot = "http://localhost:4000/"
-    const table = "schedule"
+    const table = "sponsor"
     const endpoint = [
         "/",
-        "/:id",
         "/",
-        "/addNewAttendies/:id",
-        "/deleteAttendies/:id",
-        "/:id",
-        "/:id"
+        "/getListSponsor",
+        "/searchName",
+        "/updatePrice",
+        "/addBenefit",
+        "/removeBenefit",
+        "/deleteSponsor"
     ]
     const endpointRequest = [
         "/",
         "/",
-        "/",
-        "/addNewAttendies",
-        "/deleteAttendies",
-        "/",
-        "/"
+        "/getListSponsor",
+        "/searchName",
+        "/updatePrice",
+        "/addBenefit",
+        "/removeBenefit",
+        "/deleteSponsor"
     ]
 
     const requestMethod = [
-        "get",
-        "get",
         "post",
+        "get",
+        "get",
+        "patch",
         "patch",
         "patch",
         "patch",
@@ -36,51 +39,51 @@ export default function Person() {
     ]
 
     const requestTitle = [
-        "GET All Schedules",
-        "GET A Spesific Schedule",
-        "CREATE A Schedule",
-        "ADD New Attendies",
-        "DELETE Member Of Attendies",
-        "UPDATE A Schedule",
-        "DELETE A schedule"
+        "CREATE A New Sponsor",
+        "GET All Sponsor",
+        "GET List Of Valid Sponsor",
+        "GET Sponsor By It's Name",
+        "UDPATE Price",
+        "ADD Benefit",
+        "REMOVE Benefit",
+        "DELETE A Sponsor"
     ]
 
     const defaultBodyJson = [
+        {
+            title: "Platinum",
+            price: 2000000,
+            benefit: ["Banner Besar", "Yang ngga makek ngga lolos OKK"]
+        },
         {},
         {},
+        { title: "Platinum" },
         {
-            title: "Rapat Kinerja",
-            place: "RUBOT",
-            startDate: "2022-10-11",
-            endDate: "2022-10-12",
-            attendance: ["65e795bc37dc4758f1d3c040"],
-            notulen: "Tidur nomor satu!!"
+            title: "Platinum",
+            price: 4000000
         },
         {
-            attendance: ["65e79bf237dc4758f1d3c07a", "65e79bf237dc4758f1d3c07a"]
+            title: "Platinum",
+            benefit: ["Diminta untuk membuat video promosi", "Stand terbesar"]
         },
         {
-            attendance: ["65e79bf237dc4758f1d3c07a", "65e79bf237dc4758f1d3c07a"]
+            title: "Platinum",
+            benefit: ["Banner Besar"]
         },
         {
-            title: "Rapat Kinerja",
-            place: "RUBOT",
-            startDate: "2023-10-11",
-            endDate: "2023-10-12",
-            attendance: ["65e795bc37dc4758f1d3c040"],
-            notulen: "Tidur nomor satu!!"
-        },
-        {}
+            title: "Platinum",
+        }
     ]
 
     const defaultParam = [
         "",
-        "65e7ca2facd607a42ed35eec",
         "",
-        "65e7ca2facd607a42ed35eec",
-        "65e7ca2facd607a42ed35eec",
-        "65e7ca2facd607a42ed35eec",
-        "65e7ca2facd607a42ed35eec",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
     ]
 
     function beautifyJson(data: object) {
@@ -123,7 +126,7 @@ export default function Person() {
             const inputBody = data.target.parentElement.parentElement.parentElement.nextSibling.nextSibling.nextSibling.nextSibling.value;
             let url = endRoot + table + endpointRequest[index];
             if (defaultParam[index] != "") {
-                url += '/' + inputParams;
+                url += '?' + "title=" + defaultParam[index];
             }
 
             let err = {}
@@ -133,7 +136,6 @@ export default function Person() {
                 err = error.response.data
                 return Promise.reject(error);
             });
-
 
             axios({
                 method: requestMethod[index],
@@ -224,7 +226,7 @@ export default function Person() {
         <main className="pr-10 pl-10 pb-10 h-fit w-full bg-slate-100 font-sans text-black">
             <div className="flex flex-col justify-center h-48">
                 <div className="text-5xl font-bold">{table.toLocaleUpperCase()} Table</div>
-                <div className="text-md mt-1 font-light">API Testing: <a className="underline underline-offset-2" href="https://docs.google.com/document/d/157YERLXQEB-animo8M4XCsjYMXx2HKe2c8Pa4VG6vZc/edit?usp=sharing">Documentation</a></div>
+                <div className="text-md mt-1 font-light">API Testing: <a className="underline underline-offset-2" href="https://docs.google.com/document/d/1AWqUxohLWXdPFG8qDIVNznnhhvEx6cOiYQUyzQQH6R8/edit?usp=sharing">Documentation</a></div>
             </div>
 
             {

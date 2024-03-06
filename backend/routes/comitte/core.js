@@ -10,7 +10,7 @@ route.get('/', getAllCoreMember)
 
 // get a spesific core comitte member based on it's occupation
 // input on req.body
-route.get('/searchOccupation', getCoreMember)
+route.patch('/searchOccupation', getCoreMember)
 
 // get a spesific core comitte member based on it's id
 route.get('/:id', getCoreMemberById)

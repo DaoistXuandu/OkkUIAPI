@@ -5,24 +5,20 @@ import axios, { formToJSON } from "axios";
 
 export default function Person() {
     const endRoot = "http://localhost:4000/"
-    const table = "person"
-
+    const table = "personGroup"
     const endpoint = [
-        "/entryValidity",
         "/",
         "/:id",
-        "/getUIStudents",
-        "/getNonUIStudents",
+        "/addMember/:id",
+        "/deleteMember/:id",
         "/",
-        "/:id",
-        "/:id"
+        "/",
     ]
     const endpointRequest = [
-        "/entryValidity",
         "/",
         "/",
-        "/getUIStudents",
-        "/getNonUIStudents",
+        "/addMember",
+        "/deleteMember",
         "/",
         "/",
         "/"
@@ -31,56 +27,46 @@ export default function Person() {
     const requestMethod = [
         "get",
         "get",
-        "get",
-        "get",
-        "get",
-        "post",
-        "delete",
-        "patch"
+        "patch",
+        "patch",
+        'post',
+        "delete"
     ]
 
     const requestTitle = [
-        "GET Valid University Entrance",
-        "GET List of People",
-        "GET A Single Person By Id",
-        "GET List of UI Students",
-        "GET List of Non-UI Students",
-        "CREATE/POST A Person",
-        "DELETE A Person",
-        "PATCH/Edit A Person"
+        "GET All Group",
+        "GET A Spesific Group",
+        "ADD New Member",
+        "DELETE Member",
+        "CREATE A Group",
+        "DELETE A Group"
     ]
 
     const defaultBodyJson = [
-        {},
-        {},
-        {},
-        {},
-        {},
         {
-            name: "Budo",
-            status: true,
-            faculty: "law",
-            major: "law",
-            batch: 2022,
-            entryProcess: "SNBT"
         },
         {},
         {
-            name: "Andi",
-            status: true,
-            batch: 2023
+            member: ["65e7be9c3f459a94448f8d99"]
+        },
+        {
+            member: ["65e7be973f459a94448f8d95"]
+        },
+        {
+            title: "Geng Anggur",
+            member: ["65e7bd9b3f459a94448f8d8d", "65e7be973f459a94448f8d95"]
+        },
+        {
         },
     ]
 
     const defaultParam = [
         "",
+        "65e87c9ca31b44489c02677b",
+        "65e87c9ca31b44489c02677b",
+        "65e87c9ca31b44489c02677b",
         "",
-        "65e795ee37dc4758f1d3c046",
-        "",
-        "",
-        "",
-        "65e795ee37dc4758f1d3c046",
-        "65e795ee37dc4758f1d3c046",
+        "65e7ca2facd607a42ed35eec",
     ]
 
     function beautifyJson(data: object) {
@@ -123,7 +109,7 @@ export default function Person() {
             const inputBody = data.target.parentElement.parentElement.parentElement.nextSibling.nextSibling.nextSibling.nextSibling.value;
             let url = endRoot + table + endpointRequest[index];
             if (defaultParam[index] != "") {
-                url += inputParams;
+                url += "/" + inputParams;
             }
 
             let err = {}
@@ -189,11 +175,11 @@ export default function Person() {
                             </div>
                         </div>
                         Params:
-                        <textarea id="0" className="rounded-md h-11 shadow-sm  w-full resize-none bg-slate-300 outline-none p-3 font-mono text-sm" readOnly>
+                        <textarea id="0" className="rounded-md shadow-sm h-11  w-full resize-none bg-slate-300 outline-none p-3 font-mono text-sm" readOnly>
                             {defaultParam[i]}
                         </textarea>
                         Body:
-                        <textarea className="rounded-md h-56 w-full shadow-sm resize-none bg-slate-300 outline-none p-3 font-mono text-sm" readOnly>
+                        <textarea className="rounded-md shadow-sm h-56 w-full resize-none bg-slate-300 outline-none p-3 font-mono text-sm" readOnly>
                             {beautifyJson(defaultBodyJson[i])}
                         </textarea>
                     </div>
@@ -224,7 +210,7 @@ export default function Person() {
         <main className="pr-10 pl-10 pb-10 h-fit w-full bg-slate-100 font-sans text-black">
             <div className="flex flex-col justify-center h-48">
                 <div className="text-5xl font-bold">{table.toLocaleUpperCase()} Table</div>
-                <div className="text-md mt-1 font-light">API Testing: <a className="underline underline-offset-2" href="https://docs.google.com/document/d/19pwUABnu7YZ4xi7W1h3JHA7uNXLez_bI_88dcz8cRWo/edit?usp=sharing">Documentation</a></div>
+                <div className="text-md mt-1 font-light">API Testing: <a className="underline underline-offset-2" href="https://docs.google.com/document/d/157YERLXQEB-animo8M4XCsjYMXx2HKe2c8Pa4VG6vZc/edit?usp=sharing">Documentation</a></div>
             </div>
 
             {

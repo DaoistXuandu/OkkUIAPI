@@ -3,6 +3,7 @@ const Group = require('../../models/group/Group')
 const Person = require('../../models/Person')
 const Schedule = require('../../models/Schedule')
 const { route } = require('../../routes/person')
+const PersonGroup = require('../../models/PersonGroup')
 
 
 // CREATE A Group
@@ -17,8 +18,8 @@ const createAGroup = async (req, res) => {
         // validate mentor and mentees request
         if (!mentor)
             throw "Invalid request. Must initialize a mentor"
-        if (mentees == undefined || mentees.length == 0)
-            throw "Invalid request. Must initailize atleast a mentee"
+        if (mentees == undefined)
+            throw "Invalid request. Must already create a mentee group in PERSON GROUP"
         let validGroupMember = []
         let setGroup = new Set([])
         // check for mentor
@@ -40,26 +41,9 @@ const createAGroup = async (req, res) => {
         setGroup.add(mentorData)
         validGroupMember.push(mentorData)
         // check for mentees
-        for (index in mentees) {
-            const menteeId = mentees[index]
-            const menteeData = await Person.findById(menteeId)
-
-            if (!menteeData)
-                throw `There isn't exist id:${mentor} on 'PERSON'`
-
-            if (setGroup.has(menteeId))
-                throw `Invalid Person can only have one occupation!`
-
-            if (menteeData.occupation)
-                throw `Invalid Person at id:${menteeData._id}. To get assigned in a any new occupation a person musn't be assigned to another occupation!"`
-
-            if (!menteeData.status)
-                throw `Invalid Person at id:${menteeData._id}. Mentee must be a student in UI`
-
-            validGroupMember.push(mentees[index])
-            setGroup.add(menteeId)
-        }
-
+        const menteeGroup = await PersonGroup.findById(mentees)
+        if (!menteeGroup)
+            throw `There is no exist mentees group with id:${mentees} on PERSON GROUP`
         // check for meet 
         let listOfschedules = []
         if (schedules != undefined) {
@@ -77,15 +61,23 @@ const createAGroup = async (req, res) => {
 
         // get group number
         let groupNumber = await Group.findOne({}).sort({ group: -1 })
-        groupNumber = groupNumber.group
+        if (groupNumber)
+            groupNumber = groupNumber.group
+        else
+            groupNumber = 0
         groupNumber += 1
         // throw groupNumber.group
 
+
+
         const group = await Group.create({
             group: groupNumber,
-            ...req.body
+            mentor: mentor,
+            mentees: menteeGroup,
+            schedules: schedules
         })
         let infoPerson = []
+
         for (index in validGroupMember) {
             const statusMember = await Person.findByIdAndUpdate(
                 validGroupMember[index],
@@ -96,11 +88,12 @@ const createAGroup = async (req, res) => {
         }
 
         let response = {
-            message: "Succesfully create a  Group",
+            message: "Succesfully create a Group",
             status: "SUCCESS",
             statusCode: 200,
             document: group,
-            people: infoPerson,
+            mentor: infoPerson,
+            mentees: menteeGroup,
             schedules: listOfschedules
         }
         res.status(200).json(response)
@@ -110,7 +103,8 @@ const createAGroup = async (req, res) => {
             status: "FAILED",
             statusCode: 400,
             document: null,
-            people: null,
+            mentor: null,
+            mentees: null,
             schedules: null
         }
         res.status(400).json(response)
@@ -210,10 +204,7 @@ const deleteGroup = async (req, res) => {
             throw `Invalid group with id:${id} didnt exit on 'GROUP'`
 
         listOfGroupMember.push(group.mentor)
-        group.mentees.forEach(item => {
-            listOfGroupMember.push(item)
-        })
-
+        menteeStatus = group.mentees
         const groupStatus = await Group.findByIdAndDelete(id)
         let listOfMemberStatus = []
         for (index in listOfGroupMember) {
@@ -230,7 +221,9 @@ const deleteGroup = async (req, res) => {
             status: "SUCCESS",
             statusCode: 200,
             document: groupStatus,
-            people: listOfMemberStatus
+            mentor: listOfMemberStatus,
+            mentees: menteeStatus
+
         }
         res.status(200).json(response)
     } catch (err) {
@@ -239,7 +232,8 @@ const deleteGroup = async (req, res) => {
             status: "FAILED",
             statusCode: 400,
             document: null,
-            people: null
+            mentor: null,
+            mentees: null
         }
         res.status(400).json(response)
     }
@@ -256,6 +250,10 @@ const changeMentor = async (req, res) => {
         if (!mongoose.isValidObjectId(id))
             throw `Invalid Id on id:${id}`
 
+        const group = await Group.findById(id)
+        if (!group)
+            throw "There is no group OKK with id" + id;
+
 
         const person = await Person.findById(mentor)
         if (!person)
@@ -271,7 +269,6 @@ const changeMentor = async (req, res) => {
         if (!person.status)
             throw `Invalid Person at id:${person._id}. Mentor must be a senior student in UI`
 
-        const group = await Group.findById(id)
         const changeMentor = await Group.findByIdAndUpdate(
             id,
             { $set: { mentor: person.id } },
@@ -313,61 +310,34 @@ const changeMentor = async (req, res) => {
     }
 }
 
-const addNewMentee = async (req, res) => {
+const updateMentee = async (req, res) => {
     try {
         const { id } = req.params
         const { mentees } = req.body
         if (!mongoose.isValidObjectId(id))
             throw "Invalid Mongo Id"
 
-        // handle mentess zero
-        if (mentees == undefined || mentees.length == 0)
-            throw "New mentees must be greater than zero"
+        if (!mentees)
+            throw "Invalid request body. must be a mentee group from person group table"
 
 
+        const menteeStatus = PersonGroup.findById(mentees)
+        if (!menteeStatus)
+            throw "There is no exist mentee group with id:" + menteeStatus;
 
-        // handle if there is duplicate in mentees
-        validData = []
-        for (index in mentees) {
-            if (!mongoose.isValidObjectId(mentees[index]))
-                throw "Invalid Mongo Id"
-
-            const menteeStatus = await Person.findById(mentees[index])
-            if (!menteeStatus)
-                throw `There is no such an ${mentees[index]}`
-
-            const findDuplicate = await Group.findOne({ _id: id, mentees: { $in: mentees[index] } })
-            if (!findDuplicate) {
-                if (menteeStatus.occupation)
-                    throw `This person with id:${mentees[index]} already has occupation outise being this group!!`
-                if (!menteeStatus.status)
-                    throw `This person with id:${mentees[index]} not an UI student!!`
-                validData.push(mentees[index])
-            }
-        }
 
         const process = await Group.findByIdAndUpdate(
             id,
-            { $push: { mentees: validData } }, // Corrected structure of the update
+            { $set: { mentees: mentees } }, // Corrected structure of the update
             { new: true }
         )
 
-        const changePerson = []
-        for (index in validData) {
-            const newMentee = await Person.findByIdAndUpdate(
-                validData[index],
-                { $set: { occupation: true } },
-                { new: true }
-            )
-            changePerson.push(newMentee)
-        }
-
         let response = {
-            message: "Success adding mentee on group",
+            message: "Success update group of mentee on OKK group",
             status: "SUCCESS",
             statusCode: 200,
             document: process,
-            people: changePerson
+            mentees: menteeStatus
         }
         res.status(200).json(response)
     } catch (err) {
@@ -376,74 +346,7 @@ const addNewMentee = async (req, res) => {
             status: "FAILED",
             statusCode: 400,
             document: null,
-            people: null
-        }
-        res.status(400).json(response)
-    }
-}
-
-// DELETE previous staff
-const deletePreviousMentees = async (req, res) => {
-    try {
-        const { id } = req.params
-        const { mentees } = req.body
-        if (!mongoose.isValidObjectId(id))
-            throw "Invalid Mongo Id"
-
-        // handle if there is no adding mentees
-        if (mentees == undefined || mentees.length == 0)
-            throw "Delete request must be greater than zero"
-
-        // handle if there is duplicate in mentees
-        validData = []
-        for (index in mentees) {
-            if (!mongoose.isValidObjectId(mentees[index]))
-                throw "Invalid Mongo Id"
-
-            const menteesStatus = await Person.findById(mentees[index])
-            if (!menteesStatus)
-                throw `There is no such an ${mentees[index]}`
-
-            const findDuplicate = await Group.findOne({ _id: id, mentees: { $in: mentees[index] } })
-            if (findDuplicate) {
-                validData.push(mentees[index])
-            }
-            else {
-                throw `There is no mentees with id:${mentees[index]}`
-            }
-        }
-
-        const process = await Group.findByIdAndUpdate(
-            id,
-            { $pullAll: { mentees: validData } }, // Corrected structure of the update
-            { new: true }
-        )
-
-        const changePerson = []
-        for (index in validData) {
-            const newMentee = await Person.findByIdAndUpdate(
-                validData[index],
-                { $set: { occupation: false } },
-                { new: true }
-            )
-            changePerson.push(newMentee)
-        }
-
-        let response = {
-            message: "Success deleting person on mentee",
-            status: "SUCCESS",
-            statusCode: 200,
-            document: process,
-            people: changePerson
-        }
-        res.status(200).json(response)
-    } catch (err) {
-        let response = {
-            message: err.message || err,
-            status: "FAILED",
-            statusCode: 400,
-            document: null,
-            people: null
+            mentees: null
         }
         res.status(400).json(response)
     }
@@ -566,8 +469,7 @@ module.exports = {
     getGroupBasedNumber,
     deleteGroup,
     changeMentor,
-    addNewMentee,
-    deletePreviousMentees,
+    updateMentee,
     addNewSchedule,
     deleteSchedules
 }

@@ -10,7 +10,7 @@ const divisionRoutes = require('./routes/comitte/division')
 const groupRoutes = require('./routes/group/group')
 const sponsorRoutes = require('./routes/sponsor')
 const eventRoutes = require('./routes/event')
-
+const personGroupRoutes = require('./routes/personGroup')
 // intialize the app
 const app = express()
 
@@ -24,9 +24,9 @@ app.use((req, res, next) => {
     next();
 })
 
-var cors = require('cors');
-app.use(cors());
-app.use(cors({ origin: true, credentials: true }));
+// var cors = require('cors');
+// app.use(cors());
+// app.use(cors({ origin: true, credentials: true }));
 
 //middleware
 app.use(express.json())
@@ -39,6 +39,7 @@ app.use("/comitte/division", divisionRoutes)
 app.use("/group", groupRoutes)
 app.use("/sponsor", sponsorRoutes)
 app.use("/event", eventRoutes)
+app.use("/personGroup", personGroupRoutes)
 
 mongoose.connect(process.env.DB_URI)
     .then(() => {

@@ -3,7 +3,8 @@ const Event = require('../models/Event')
 const Person = require('../models/Person')
 const Schedule = require('../models/Schedule')
 const Sponsor = require('../models/Sponsor')
-const { route } = require('../routes/event')
+const Group = require('../models/group/Group')
+const PersonGroup = require('../models/PersonGroup')
 
 // CREATE an event
 const createEvent = async (req, res) => {
@@ -21,23 +22,11 @@ const createEvent = async (req, res) => {
         if (!getSchedule)
             throw `There is no exist schedule with id:${schedule}`
 
+        const getGroupPeople = await PersonGroup.findById(eventSpeaker)
+        if (!getGroupPeople)
+            throw `There is no exist a person group with id:${eventSpeaker}`
+
         // validasi non - required
-        let getSpeaker = []
-        if (eventSpeaker != undefined) {
-            for (item in eventSpeaker) {
-                const speakerId = eventSpeaker[item]
-                if (!mongoose.isValidObjectId(speakerId))
-                    throw `Invalid request. There is no id:${speakerId}`
-
-                const speaker = await Person.findById(speakerId)
-                if (!speaker)
-                    throw `Invalid request. There isn't exist id:${speakerId} on 'PERSON'`
-
-                getSpeaker.push(speaker)
-            }
-        }
-
-        // sponsor
         let setOfSponsor = new Set()
         if (eventSponsor != undefined) {
             for (item in eventSponsor) {
@@ -66,7 +55,7 @@ const createEvent = async (req, res) => {
             statusCode: 200,
             document: createEvent,
             schedule: getSchedule,
-            speaker: getSpeaker
+            speaker: eventSpeaker
         }
         res.status(400).json(response)
     } catch (err) {
@@ -178,76 +167,23 @@ const updateSchedule = async (req, res) => {
 const addDeleteSpeaker = async (req, res) => {
     try {
         const { id } = req.params
-        const { addData, deleteData } = req.body
+        const { speaker } = req.body
 
-        // check params
+
         if (!mongoose.isValidObjectId(id))
-            throw "Invalid Id, there no such an id on MongoDB"
+            throw "Invalid Object Id"
 
-        let setData = new Set([])
-        let validAdd = []
-        if (addData != undefined && addData.length != 0) {
-            for (item in addData) {
-                if (setData.has(addData[item]))
-                    throw `There is exist duplicate in addData with id:${addData[item]}`
+        const personGroupStatus = await PersonGroup.findById(speaker)
+        if (!personGroupStatus)
+            throw `There is no exist a personGroup with id:${speaker} on 'PERSON GROUP'`
 
-                const duplicate = await Event.findOne({
-                    _id: id,
-                    eventSpeaker: { $in: addData[item] }
-                })
-
-                if (!duplicate) {
-                    validAdd.push(addData[item])
-                }
-                setData.add(addData[item])
-            }
-        }
-
-        // throw deleteData
-        let unsetData = new Set([])
-        let validDel = []
-        if (deleteData != undefined && deleteData.length != 0) {
-            for (item in deleteData) {
-                // throw deleteData[item]
-                const duplicate = await Event.findOne({
-                    _id: id,
-                    eventSpeaker: { $in: deleteData[item] }
-                });
-
-                if (unsetData.has(deleteData[item]))
-                    throw `There is exist duplicate in deleteData with id:${deleteData[item]}`
-
-                if (setData.has(deleteData[item]))
-                    throw `there is conflict of add and remove in PATH 'evenSpeaker' with id:${deleteData[item]}`
-
-                if (duplicate) {
-                    unsetData.add(deleteData[item])
-                    validDel.push(deleteData[item])
-                }
-                else
-                    throw `There is no speaker with id:${deleteData[item]}`
-            }
-        }
-
-        let changeSpeaker = await Event.findOneAndUpdate(
-            { _id: id },
-            { $pullAll: { eventSpeaker: validDel } },
-            { new: true }
-        )
-
-        changeSpeaker = await Event.findOneAndUpdate(
-            { _id: id },
-            { $push: { eventSpeaker: validAdd } },
-            { new: true }
-        )
 
         let response = {
-            message: "Succesfully add and delete speaker",
+            message: "Succesfully update speaker",
             status: "SUCCESS",
             statusCode: 200,
             documents: changeSpeaker,
-            addedSpeaker: validAdd,
-            removedSpeaker: validDel
+            speaker: personGroupStatus,
         }
         res.status(200).json(response)
     }

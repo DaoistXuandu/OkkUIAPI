@@ -123,7 +123,7 @@ export default function Person() {
             const inputBody = data.target.parentElement.parentElement.parentElement.nextSibling.nextSibling.nextSibling.nextSibling.value;
             let url = endRoot + table + endpointRequest[index];
             if (defaultParam[index] != "") {
-                url += '/' + inputParams;
+                url += "/" + inputParams;
             }
 
             let err = {}

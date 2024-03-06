@@ -5,82 +5,92 @@ import axios, { formToJSON } from "axios";
 
 export default function Person() {
     const endRoot = "http://localhost:4000/"
-    const table = "person"
-
+    const table = "group"
     const endpoint = [
-        "/entryValidity",
         "/",
-        "/:id",
-        "/getUIStudents",
-        "/getNonUIStudents",
         "/",
+        "/",
+        "/searchGroupNumber",
         "/:id",
-        "/:id"
+        "/changeMentor/:id",
+        "/updateMentee",
+        "/addNewSchedules/:id",
+        "/deleteSchedules/:id"
     ]
     const endpointRequest = [
-        "/entryValidity",
         "/",
         "/",
-        "/getUIStudents",
-        "/getNonUIStudents",
         "/",
+        "/searchGroupNumber",
         "/",
-        "/"
+        "/changeMentor/",
+        "/updateMentee",
+        "/addNewSchedules/",
+        "/deleteSchedules/"
     ]
 
     const requestMethod = [
-        "get",
-        "get",
-        "get",
-        "get",
-        "get",
         "post",
+        "get",
+        "get",
+        "patch",
         "delete",
+        "patch",
+        "patch",
+        "patch",
         "patch"
     ]
 
     const requestTitle = [
-        "GET Valid University Entrance",
-        "GET List of People",
-        "GET A Single Person By Id",
-        "GET List of UI Students",
-        "GET List of Non-UI Students",
-        "CREATE/POST A Person",
-        "DELETE A Person",
-        "PATCH/Edit A Person"
+        "CREATE A Group",
+        "GET ALL Group",
+        "GET Group based on it's id",
+        "GET Group based on it's number",
+        "DELETE Group",
+        "CHANGE Mentor",
+        "UPDATE Mentee",
+        "DELETE Mentee",
+        "ADD Schedule",
+        "DELETE Schedule"
     ]
 
     const defaultBodyJson = [
-        {},
-        {},
-        {},
+        {
+            mentor: "65e79bf337dc4758f1d3c08c",
+            mentees: "65e87d9a2649285ef64f106c",
+            schedules: ["65e7cbb6acd607a42ed35ef7"]
+        },
         {},
         {},
         {
-            name: "Budo",
-            status: true,
-            faculty: "law",
-            major: "law",
-            batch: 2022,
-            entryProcess: "SNBT"
+            number: 1
         },
-        {},
         {
-            name: "Andi",
-            status: true,
-            batch: 2023
         },
+        {
+            mentor: "65e79bf237dc4758f1d3c078"
+        },
+        {
+            mentees: "65e87d9a2649285ef64f106c"
+        },
+        {
+            schedules: ["65e7cbb6acd607a42ed35ef7"]
+        },
+        {
+            schedules: ["65e7cbb6acd607a42ed35ef7"]
+        }
     ]
 
     const defaultParam = [
         "",
         "",
-        "65e795ee37dc4758f1d3c046",
+        "65e85edaa8bee2c9e7a27344",
         "",
-        "",
-        "",
-        "65e795ee37dc4758f1d3c046",
-        "65e795ee37dc4758f1d3c046",
+        "65e85edaa8bee2c9e7a27344",
+        "65e889e8ea248016b0156d55",
+        "65e889e8ea248016b0156d55",
+        "65e889e8ea248016b0156d55",
+        "65e889e8ea248016b0156d55"
     ]
 
     function beautifyJson(data: object) {
@@ -189,11 +199,11 @@ export default function Person() {
                             </div>
                         </div>
                         Params:
-                        <textarea id="0" className="rounded-md h-11 shadow-sm  w-full resize-none bg-slate-300 outline-none p-3 font-mono text-sm" readOnly>
+                        <textarea id="0" className="rounded-md shadow-sm h-11  w-full resize-none bg-slate-300 outline-none p-3 font-mono text-sm" readOnly>
                             {defaultParam[i]}
                         </textarea>
                         Body:
-                        <textarea className="rounded-md h-56 w-full shadow-sm resize-none bg-slate-300 outline-none p-3 font-mono text-sm" readOnly>
+                        <textarea className="rounded-md shadow-sm h-56 w-full resize-none bg-slate-300 outline-none p-3 font-mono text-sm" readOnly>
                             {beautifyJson(defaultBodyJson[i])}
                         </textarea>
                     </div>
@@ -224,7 +234,7 @@ export default function Person() {
         <main className="pr-10 pl-10 pb-10 h-fit w-full bg-slate-100 font-sans text-black">
             <div className="flex flex-col justify-center h-48">
                 <div className="text-5xl font-bold">{table.toLocaleUpperCase()} Table</div>
-                <div className="text-md mt-1 font-light">API Testing: <a className="underline underline-offset-2" href="https://docs.google.com/document/d/19pwUABnu7YZ4xi7W1h3JHA7uNXLez_bI_88dcz8cRWo/edit?usp=sharing">Documentation</a></div>
+                <div className="text-md mt-1 font-light">API Testing: <a className="underline underline-offset-2" href="https://docs.google.com/document/d/157YERLXQEB-animo8M4XCsjYMXx2HKe2c8Pa4VG6vZc/edit?usp=sharing">Documentation</a></div>
             </div>
 
             {

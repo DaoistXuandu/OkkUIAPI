@@ -220,6 +220,7 @@ const addMemberOnAttendance = async (req, res) => {
 
         // handle if there is duplicate in attendance
         validData = []
+        setData = new Set([])
         for (index in attendance) {
             if (!mongoose.isValidObjectId(attendance[index]))
                 throw "Invalid Mongo Id"
@@ -229,8 +230,12 @@ const addMemberOnAttendance = async (req, res) => {
                 throw `There is no such an ${attendance[index]}`
 
             const findDuplicate = await Schedule.findOne({ _id: id, attendance: { $in: attendance[index] } })
+            if (setData.has(attendance[index]))
+                continue
+
             if (!findDuplicate) {
                 validData.push(attendance[index])
+                setData.push(attendance[index])
             }
         }
 
