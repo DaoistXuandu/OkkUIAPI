@@ -5,70 +5,115 @@ import axios, { formToJSON } from "axios";
 
 export default function Person() {
     const endRoot = "http://localhost:4000/"
-    const table = "comitte/core"
+    const table = "comitte/division"
     const endpoint = [
-        "/corePosition",
-        "/",
-        "/searchOccupation",
-        "/:id",
         "/",
         "/:id",
-        "/:id"
+        "/",
+        "/getListOfDivision",
+        "/searchDivision",
+        "/:id",
+        "/:id",
+        "/addNewStaff/:id",
+        "/deletePreviousStaff/:id",
+        "/addNewMeet/:id",
+        "/deletePreviousMeet/:id"
     ]
     const endpointRequest = [
-        "/corePosition",
-        "/",
-        "/searchOccupation",
         "/",
         "/",
         "/",
-        "/"
+        "/getListOfDivision",
+        "/searchDivision",
+        "/",
+        "/",
+        "/addNewStaff/",
+        "/deletePreviousStaff/",
+        "/addNewMeet/",
+        "/deletePreviousMeet/"
     ]
 
     const requestMethod = [
+        "post",
+        "delete",
         "get",
+        "get",
+        'patch',
         "get",
         "patch",
-        "get",
-        'post',
         "patch",
-        "delete"
+        "patch",
+        "patch",
+        "patch"
     ]
 
     const requestTitle = [
-        "GET All Posibble Position",
-        "GET All Member",
-        "GET Member By It's Occupation",
-        "GET Member By It's Id",
-        "CREATE/ADD A member ",
-        "UPDATE A Member",
-        "DELETE A Member"
+        "CREATE A Division",
+        "DELETE A Division",
+        "GET All Division",
+        "GET List of Division",
+        "GET A Division Based of It's name",
+        "GET A Division Based of It's Id",
+        "UPDATE A Division",
+        "ADD New Staff",
+        "Delete Staff",
+        "Add New Meet",
+        "Delete Meet"
     ]
 
     const defaultBodyJson = [
+        {
+            title: "Kesekretariatan",
+            member: {
+                pic: "65e795ee37dc4758f1d3c04c",
+                vpic: {
+                    first: "65e795ee37dc4758f1d3c04e",
+                    second: "65e795ee37dc4758f1d3c05a"
+                },
+                staff: [
+                    "65e795ee37dc4758f1d3c054"
+                ]
+            },
+            meet: [
+                "65e7cd9cacd607a42ed35f0c"
+            ]
+        },
         {},
         {},
-        { occupation: "Controller" },
         {},
         {
-            personId: "65e79bf337dc4758f1d3c08a",
-            occupation: "Controller"
+            title: "PSDM"
+        },
+        {},
+        {
+            title: "PSDM"
         },
         {
-            personId: "65e795ee37dc4758f1d3c048",
-            occupation: "Controller"
+            staff: ["65e79bf337dc4758f1d3c080"]
         },
-        {}
+        {
+            staff: ["65e79bf337dc4758f1d3c080"]
+        },
+        {
+            meet: ["65e86af27740676310f4db88"]
+        },
+        {
+            meet: ["65e86af27740676310f4db88"]
+        }
     ]
 
     const defaultParam = [
         "",
+        "65e862548b297836e05ac915",
         "",
         "",
-        "65e79bf337dc4758f1d3c08a",
         "",
-        "65e79bf337dc4758f1d3c08a",
-        "65e79bf337dc4758f1d3c08a"
+        "65e8970d1537097906d6a599",
+        "65e8970d1537097906d6a599",
+        "65e8970d1537097906d6a599",
+        "65e8970d1537097906d6a599",
+        "65e8970d1537097906d6a599",
+        "65e8970d1537097906d6a599"
     ]
 
     function beautifyJson(data: object) {
@@ -110,10 +155,11 @@ export default function Person() {
             const inputParams = data.target.parentElement.parentElement.parentElement.nextSibling.nextSibling.value;
             const inputBody = data.target.parentElement.parentElement.parentElement.nextSibling.nextSibling.nextSibling.nextSibling.value;
             let url = endRoot + table + endpointRequest[index];
+
             if (defaultParam[index] != "") {
                 url += inputParams;
             }
-
+            console.log(inputParams)
             let err = {}
             axios.interceptors.response.use(function (config) {
                 return config;

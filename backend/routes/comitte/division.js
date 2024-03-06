@@ -15,7 +15,7 @@ route.get('', getAllDivision)
 route.get('/getListOfDivision', getListOfDivision)
 
 // GET only spesific division based on name
-route.get('/searchDivision', getDivisionByName)
+route.patch('/searchDivision', getDivisionByName)
 
 // GET only spesific division based on id
 route.get('/:id', getDivisionById)

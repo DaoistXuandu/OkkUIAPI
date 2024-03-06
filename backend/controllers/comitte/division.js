@@ -237,7 +237,7 @@ const getDivisionByName = async (req, res) => {
         const division = await Division.findOne({ title: title })
 
         if (!division)
-            throw `Division '${name}' didn't exist`
+            throw `Division '${title}' didn't exist`
 
         let response = {
             message: "Succesfully get a division",
@@ -263,6 +263,7 @@ const getDivisionByName = async (req, res) => {
 const getDivisionById = async (req, res) => {
     try {
         const { id } = req.params
+        console.log(id)
         if (!mongoose.isValidObjectId(id))
             throw "Invalid Mongo Id"
 
@@ -297,6 +298,7 @@ const updateDivisionById = async (req, res) => {
         const { id } = req.params
         let { title, member, meet } = req.body
 
+        console.log(title)
         // check validitas id
         if (!mongoose.isValidObjectId(id))
             throw `Invalid Mongo Id on ${id}`
@@ -304,6 +306,10 @@ const updateDivisionById = async (req, res) => {
         const currentDivision = await Division.findById(id)
         if (!currentDivision)
             throw `There is no division with id:${id}`
+
+        if (!validDivision.has(title))
+            throw "Invalid Disvision name"
+
 
         // pada title, jika ada perubahan telaah apakah judul yang berubah telah ada
         if (title != undefined) {
@@ -319,7 +325,6 @@ const updateDivisionById = async (req, res) => {
         let originalPerson = [], updatedPerson = []
         if (member != undefined) {
             listAllMember = []
-
             if (member.staff != undefined) {
                 listAllMember = JSON.parse(JSON.stringify(member.staff))
             }
@@ -341,6 +346,8 @@ const updateDivisionById = async (req, res) => {
                     throw `Invalid Mongo Id:${currentId}`
                 if (memberSet.has(currentId))
                     throw "Each person can only have one occupation and position"
+
+                // if ()
 
                 person = await Person.findById(currentId)
                 status = checkDivisionMember(person, currentId)
@@ -690,7 +697,7 @@ const deletePreviousMeet = async (req, res) => {
         )
 
         let response = {
-            message: "Success deleting person on staff",
+            message: "Success deleting meet on division",
             status: "SUCCESS",
             statusCode: 200,
             document: process,
