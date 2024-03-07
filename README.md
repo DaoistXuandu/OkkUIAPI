@@ -36,7 +36,7 @@ Setelah berkali - kalai error karena lupa menaruh "use client" atau secra ***** 
 
 > CORS
 >
-Benda aneh yang sangat random, sepengetahuan saya hal ini hanyalah suatu bentuk protokol sehingga PORT dan konsekusensinya data kita sulit dimasukin orang hanya saja kadang 3 detik setelah aman bisa kenak cors lagi itu gimana terus nyobak input yang sama tiba - tiba bisa,
+Benda aneh yang sangat random, sepengetahuan saya hal ini hanyalah suatu bentuk protokol sehingga PORT bisa berinteraksi dan menjaga keamanan arsitektur komputer kita sehingga konsekusensinya data kita sulit dimasukin orang. Hanya saja coors sendiri berperilaku lumayan randm kadang 3 detik setelah aman bisa kenak cors lagi terus nyobak input yang sama tiba - tiba bisa.
 
 > Bukan karena dia murah dan terkenal itu bagus
 >
