@@ -13,7 +13,7 @@ export default function Person() {
         "/searchGroupNumber",
         "/:id",
         "/changeMentor/:id",
-        "/updateMentee",
+        "/updateMentee/:id",
         "/addNewSchedules/:id",
         "/deleteSchedules/:id"
     ]
@@ -24,7 +24,7 @@ export default function Person() {
         "/searchGroupNumber",
         "/",
         "/changeMentor/",
-        "/updateMentee",
+        "/updateMentee/",
         "/addNewSchedules/",
         "/deleteSchedules/"
     ]
@@ -49,7 +49,6 @@ export default function Person() {
         "DELETE Group",
         "CHANGE Mentor",
         "UPDATE Mentee",
-        "DELETE Mentee",
         "ADD Schedule",
         "DELETE Schedule"
     ]

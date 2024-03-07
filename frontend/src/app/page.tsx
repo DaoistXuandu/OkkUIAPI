@@ -124,7 +124,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="w-1/2 h-fit m-2 p-1 rounded-md shadow-lg bg-white">
+              <div className="w-1/2 h-fit m-2 p-2 rounded-md shadow-lg bg-white">
                 <div className="bg-white w-full h-full rounded-md p-4">
                   <div className="font-semibold font-sans text-3xl ">Group Of People Table</div>
                   <div className="mt-4 font-light text-sm">Defined as table that hold the information of someone relative to their position as an University of Indonesia student. As such if a person is an UI student it will be contain id, name, status, faculty, major, batch, entry process and occupation. As for non University of Indonesia student it will contain an id, name, status, and occupation.</div>

@@ -312,6 +312,7 @@ const changeMentor = async (req, res) => {
 
 const updateMentee = async (req, res) => {
     try {
+        console.log(1)
         const { id } = req.params
         const { mentees } = req.body
         if (!mongoose.isValidObjectId(id))
@@ -321,16 +322,16 @@ const updateMentee = async (req, res) => {
             throw "Invalid request body. must be a mentee group from person group table"
 
 
-        const menteeStatus = PersonGroup.findById(mentees)
+        const menteeStatus = await PersonGroup.findById(mentees)
         if (!menteeStatus)
             throw "There is no exist mentee group with id:" + menteeStatus;
-
 
         const process = await Group.findByIdAndUpdate(
             id,
             { $set: { mentees: mentees } }, // Corrected structure of the update
             { new: true }
         )
+
 
         let response = {
             message: "Success update group of mentee on OKK group",

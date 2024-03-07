@@ -21,7 +21,7 @@ route.delete('/:id', deleteGroup)
 route.patch('/changeMentor/:id', changeMentor)
 
 // ADD Mentee
-route.patch('/updateMentee', updateMentee)
+route.patch('/updateMentee/:id', updateMentee)
 
 // ADD Schedule
 route.patch('/addNewSchedules/:id', addNewSchedule)
