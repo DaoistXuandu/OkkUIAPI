@@ -210,7 +210,7 @@ export default function Person() {
         <main className="pr-10 pl-10 pb-10 h-fit w-full bg-slate-100 font-sans text-black">
             <div className="flex flex-col justify-center h-48">
                 <div className="text-5xl font-bold">{table.toLocaleUpperCase()} Table</div>
-                <div className="text-md mt-1 font-light">API Testing: <a className="underline underline-offset-2" href="https://docs.google.com/document/d/157YERLXQEB-animo8M4XCsjYMXx2HKe2c8Pa4VG6vZc/edit?usp=sharing">Documentation</a></div>
+                <div className="text-md mt-1 font-light">API Testing: <a className="underline underline-offset-2" href="https://docs.google.com/document/d/1jDXFOm7wEtuY5g9NvluUHdgxOa0IbP_yvOEH31NtIWI/edit?usp=sharing">Documentation</a></div>
             </div>
 
             {

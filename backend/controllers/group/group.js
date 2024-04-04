@@ -141,6 +141,10 @@ const getGroupBasedId = async (req, res) => {
     try {
         const { id } = req.params
         const group = await Group.findById(id)
+        if (!group)
+            throw `Group with id:'${id}' didn't exist`
+
+
         let response = {
             message: "Succesfully found this group",
             status: "SUCCESS",
@@ -312,7 +316,6 @@ const changeMentor = async (req, res) => {
 
 const updateMentee = async (req, res) => {
     try {
-        console.log(1)
         const { id } = req.params
         const { mentees } = req.body
         if (!mongoose.isValidObjectId(id))

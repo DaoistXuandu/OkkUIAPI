@@ -120,6 +120,9 @@ const getCoreMember = async (req, res) => {
         }
 
         const member = await Core.findOne({ occupation: occupation })
+        if (!member)
+            throw "There is no such a member on 'CORE' yet"
+
         let response = {
             message: "Succesfully get a member",
             status: "SUCCESS",

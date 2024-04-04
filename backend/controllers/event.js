@@ -57,7 +57,7 @@ const createEvent = async (req, res) => {
             schedule: getSchedule,
             speaker: eventSpeaker
         }
-        res.status(400).json(response)
+        res.status(200).json(response)
     } catch (err) {
         let response = {
             message: err.message || err,
@@ -101,6 +101,8 @@ const getEventById = async (req, res) => {
     try {
         const { id } = req.params
         const event = await Event.findById(id)
+        if (!event)
+            throw "There is no person with id:" + id
         let response = {
             message: "Succesfully show this event",
             status: "SUCCESS",
@@ -141,7 +143,7 @@ const updateSchedule = async (req, res) => {
             { $set: { schedule: schedule } },
             { new: true }
         )
-
+        console.log(eventUpdate)
         let response = {
             message: "Succesfully update this schedule",
             status: "SUCCESS",
@@ -169,7 +171,7 @@ const addDeleteSpeaker = async (req, res) => {
         const { id } = req.params
         const { speaker } = req.body
 
-
+        console.log("shilkds,")
         if (!mongoose.isValidObjectId(id))
             throw "Invalid Object Id"
 
@@ -177,6 +179,10 @@ const addDeleteSpeaker = async (req, res) => {
         if (!personGroupStatus)
             throw `There is no exist a personGroup with id:${speaker} on 'PERSON GROUP'`
 
+        const changeSpeaker = await Event.findByIdAndUpdate(
+            id,
+            { $set: { eventSpeaker: speaker } }
+        )
 
         let response = {
             message: "Succesfully update speaker",

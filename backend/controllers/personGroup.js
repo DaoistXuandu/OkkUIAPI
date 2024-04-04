@@ -122,8 +122,6 @@ const createGroup = async (req, res) => {
             // asumsi bahwa groupOfPeople dikhusukan untuk mentee, staff dan kepanitian di UI
             if (person.occupation)
                 throw `Invalid a person who already has occupation can't be entered a group of people`
-            if (!person.status)
-                throw `Only UI student can become part of the group`
 
         }
 
@@ -186,8 +184,6 @@ const addMember = async (req, res) => {
 
             if (statusMember.occupation)
                 throw `Invalid a person who already has occupation can't be entered a group of people`
-            if (!statusMember.status)
-                throw `Only UI student can become part of the group`
 
         }
 
@@ -198,6 +194,11 @@ const addMember = async (req, res) => {
             },
             { new: true }
         )
+
+        if (!process)
+            throw "There is no such a group!"
+
+
         let validMember = []
         for (item in member) {
             const person = await Person.findByIdAndUpdate(
@@ -261,6 +262,9 @@ const deleteMember = async (req, res) => {
             },
             { new: true }
         )
+
+        if (!process)
+            throw "There is no such a group!"
 
         let validMember = []
         for (item in member) {

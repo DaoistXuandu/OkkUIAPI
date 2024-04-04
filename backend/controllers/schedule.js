@@ -235,7 +235,7 @@ const addMemberOnAttendance = async (req, res) => {
 
             if (!findDuplicate) {
                 validData.push(attendance[index])
-                setData.push(attendance[index])
+                setData.add(attendance[index])
             }
         }
 

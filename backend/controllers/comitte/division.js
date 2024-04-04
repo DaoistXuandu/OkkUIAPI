@@ -387,14 +387,29 @@ const updateDivisionById = async (req, res) => {
             }
         }
 
-        let currentMember = {
-            pic: member.pic || currentDivision.member.pic,
-            vpic: {
-                first: (member.vpic && member.vpic.first) || currentDivision.member.vpic.first,
-                second: (member.vpic && member.vpic.second) || currentDivision.member.vpic.second
-            },
-            staff: member.staff || currentDivision.member.staff
+        let pic = undefined, vpicFirst = undefined, vpicSecond = undefined, staff = undefined;
+        if (member != undefined) {
+            if (member.pic != undefined)
+                pic = member.pic
+            if (member.vpic != undefined) {
+                if (member.vpic.first != undefined)
+                    vpicFirst = member.vpic.first
+                if (member.vpic.second != undefined)
+                    vpicSecond = member.vpic.second
+            }
+            if (member.staff != undefined)
+                staff = member.staff
         }
+
+        let currentMember = {
+            pic: pic || currentDivision.member.pic,
+            vpic: {
+                first: vpicFirst || currentDivision.member.vpic.first,
+                second: vpicSecond || currentDivision.member.vpic.second
+            },
+            staff: staff || currentDivision.member.staff
+        }
+
 
         let currentMeet = meet || currentDivision.meet
         let currentTitle = title || currentDivision.title
@@ -504,6 +519,9 @@ const addNewStaff = async (req, res) => {
             { $push: { 'member.staff': validData } }, // Corrected structure of the update
             { new: true }
         )
+
+        if (!process)
+            throw `There is no division with id:${id}`
 
         const changePerson = []
         for (index in validData) {

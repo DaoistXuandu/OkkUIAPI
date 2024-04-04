@@ -12,7 +12,7 @@ export default function Person() {
         "/:id",
         "/updateSchedule/:id",
         "/addDeleteSponsor/:id",
-        "/addDeleteSpeaker/:id",
+        "/updateGroupSpeaker/:id",
         "/:id",
     ]
     const endpointRequest = [
@@ -21,7 +21,7 @@ export default function Person() {
         "/",
         "/updateSchedule",
         "/addDeleteSponsor",
-        "/addDeleteSpeaker",
+        "/updateGroupSpeaker",
         "/",
     ]
 
@@ -124,6 +124,7 @@ export default function Person() {
             const inputParams = data.target.parentElement.parentElement.parentElement.nextSibling.nextSibling.value;
             const inputBody = data.target.parentElement.parentElement.parentElement.nextSibling.nextSibling.nextSibling.nextSibling.value;
             let url = endRoot + table + endpointRequest[index];
+            console.log(inputParams)
             if (defaultParam[index] != "") {
                 url += '/' + inputParams;
             }
